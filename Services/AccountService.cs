@@ -2,23 +2,33 @@
 
 namespace Milestone_cst_350.Services
 {
-    public class AccountService : DataService
+    public class AccountService
     {
+        private AccountDAO _accountDAO;
+
         public AccountService()
         {
-            // ...
+            _accountDAO = new AccountDAO();
         }
 
-        // TODO: RegisterUser
+        /// <summary>
+        /// Attempt to Register a User.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>TODO: Return ErrorModel</returns>
         public bool RegisterUser(UserModel user)
         {
-            return false;
+            return _accountDAO.CreateUser(user);
         }
 
-        // TODO: AuthenticateUser
+        /// <summary>
+        /// Attempt to Authenticate a User.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>TODO: Return ErrorModel</returns>
         public bool AuthenticateUser(UserModel user)
         {
-            return false;
+            return _accountDAO.AuthenticateUser(user);
         }
     }
 }
