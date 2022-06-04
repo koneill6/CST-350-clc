@@ -35,7 +35,7 @@ namespace Milestone_cst_350.Models
         [StringLength(40, ErrorMessage = "Input must be between 1 - 40 characters", MinimumLength = 1)]
         public string Username { get; set; }
 
-        [Display(Name = "Username"), Required]
+        [Display(Name = "Password"), Required]
         //[StringLength(40, ErrorMessage = "Input must be between 1 - 40 characters", MinimumLength = 1)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
