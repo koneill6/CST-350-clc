@@ -1,6 +1,6 @@
 ﻿@model Milestone_cst_350.Models.LoginModel
 
-<h4>LoginModel</h4>
+<h4>Login</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -16,12 +16,18 @@
                 <input asp-for="Password" type="password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
+<br />
+<div>
+    <a asp-controller="Register" asp-action="Index">Don't have an account? Click here to create one.</a>
+</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
