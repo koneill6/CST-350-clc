@@ -57,5 +57,15 @@ namespace Milestone_cst_350.Models
             Username = username;
             Password = password;
         }
+
+        public override string? ToString()
+        {
+            return string.Format(
+                "User(" +
+                "Id: {0}, Firstname: {1}, Lastname: {2}, " +
+                "Sex: {3}, Age: {4}, State: {5}, Email: {6}, Username: {7}, Password: {8}" +
+                ")",
+                Id, Firstname, Lastname, Sex, Age, State, Email, Username, Password); 
+        }
     }
 }

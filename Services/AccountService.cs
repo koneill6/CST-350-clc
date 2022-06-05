@@ -30,5 +30,21 @@ namespace Milestone_cst_350.Services
         {
             return _accountDAO.AuthenticateUser(user);
         }
+
+        /// <summary>
+        /// Attempt to Authenticate a User.
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns>TODO: Return ErrorModel OR Deprecate and use Authenticate(UserModel user)</returns>
+        public bool AuthenticateUser(LoginModel login)
+        {
+            UserModel user = new UserModel
+            {
+                Username = login.Username,
+                Password = login.Password
+            };
+
+            return _accountDAO.AuthenticateUser(user);
+        }
     }
 }
