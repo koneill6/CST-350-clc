@@ -4,7 +4,7 @@ using Milestone_cst_350.Services;
 
 namespace Milestone_cst_350.Controllers
 {
-    public class LoginController : Controller
+    public class RegisterController : Controller
     {
         private AccountService _accountService = new AccountService();
 
@@ -13,13 +13,13 @@ namespace Milestone_cst_350.Controllers
             return View();
         }
 
-        public IActionResult ShowLogin(LoginModel login)
+        public IActionResult RegisterUser(UserModel user)
         {
-            // TODO: Determine if UserModel is just better to use here.
-            return _accountService.AuthenticateUser(login) ?
-                View("loginValid", login)
+            // TODO: Adjust routing in later milestones?
+            return _accountService.RegisterUser(user) ?
+                View("RegisterSuccess")
                 :
-                View("loginInvalid", login);            
+                View("RegisterFailure");
         }
     }
 }
