@@ -19,6 +19,7 @@ namespace Milestone_cst_350.Controllers
             if (_accountService.AuthenticateUser(login))
             {
                 //needs the .. to go back to local host/default controller
+                //
                 Response.Redirect("../userlanding");
             }
             // TODO: Determine if UserModel is just better to use here.
