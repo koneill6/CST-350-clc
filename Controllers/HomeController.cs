@@ -16,7 +16,7 @@ namespace Milestone_cst_350.Controllers
         public IActionResult Index()
         {
             //redirect landing page to the login page
-            Response.Redirect("login");
+            //Response.Redirect("login");
             return View();
         }
 

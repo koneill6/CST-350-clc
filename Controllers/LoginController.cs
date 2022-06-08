@@ -15,11 +15,15 @@ namespace Milestone_cst_350.Controllers
 
         public IActionResult ShowLogin(LoginModel login)
         {
+            //temp way to check authentication and redirect to user landing page
+            if (_accountService.AuthenticateUser(login))
+            {
+                //needs the .. to go back to local host/default controller
+                Response.Redirect("../userlanding");
+            }
             // TODO: Determine if UserModel is just better to use here.
-            return _accountService.AuthenticateUser(login) ?
-                View("LoginSuccess")
-                :
-                View("LoginFailure");            
+            return View("LoginFailure");
+
         }
     }
 }
