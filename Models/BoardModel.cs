@@ -9,12 +9,12 @@ namespace Milestone_cst_350.Models
     /// <summary>
     /// Class for handling all the game board logic.
     /// </summary>
-    class Board
+    public class BoardModel
     {
         /// <summary>
         /// The 2 dimensional grid of cell.
         /// </summary>
-        public Cell[,] Grid { get; set; }
+        public CellModel[,] Grid { get; set; }
 
         /// <summary>
         /// The size or length/width of the game board.
@@ -41,7 +41,7 @@ namespace Milestone_cst_350.Models
         /// </summary>
         /// <param name="size">the length/width of the board</param>
         /// <param name="bombPercentage">the percentage of bombs</param>
-        public Board(int size, float bombPercentage)
+        public BoardModel(int size, float bombPercentage)
         {
             // Initialize Fields
             Size = size;
@@ -50,8 +50,20 @@ namespace Milestone_cst_350.Models
             NumFlaggedCells = 0;
 
             // Initialize Grid
-            Grid = new Cell[Size, Size];
+            Grid = new CellModel[Size, Size];
             InitializeCells();
+        }
+
+        /// <summary>
+        /// Get the cell at the provided position.
+        /// </summary>
+        /// <param name="row">the cell's row position</param>
+        /// <param name="col">the cell's column position</param>
+        /// <returns>the cell or null if out of bounds</returns>
+        public CellModel GetCell(int row, int col)
+        {
+            if (row < 0 || row >= Size || col < 0 || col >= Size) return null;
+            return Grid[row, col];
         }
 
         /// <summary>
@@ -68,13 +80,13 @@ namespace Milestone_cst_350.Models
                 for (int j = 0; j < Size; j++)
                 {
                     // Create new cell
-                    Cell cell = new Cell();
+                    CellModel cell = new CellModel();
                     cell.Row = i;
                     cell.Col = j;
                     cell.IsLive = random.NextDouble() <= BombPercentage;
                     Grid[i, j] = cell;
 
-                    // Incremenet total bomb count
+                    // Increment total bomb count
                     if (cell.IsLive) NumBombs++;
                 }
             }
@@ -126,18 +138,6 @@ namespace Milestone_cst_350.Models
         }
 
         /// <summary>
-        /// Get the cell at the provided position.
-        /// </summary>
-        /// <param name="row">the cell's row position</param>
-        /// <param name="col">the cell's column position</param>
-        /// <returns>the cell or null if out of bounds</returns>
-        public Cell GetCell(int row, int col)
-        {
-            if (row < 0 || row >= Size || col < 0 || col >= Size) return null;
-            return Grid[row, col];
-        }
-
-        /// <summary>
         /// Check if a cell is live.
         /// </summary>
         /// <param name="row">the cell's row position</param>
@@ -145,7 +145,7 @@ namespace Milestone_cst_350.Models
         /// <returns>1 if the cell is live, otherwise returns 0</returns>
         private int IsLive(int row, int col)
         {
-            Cell cell = GetCell(row, col);
+            CellModel cell = GetCell(row, col);
             return cell == null || !cell.IsLive ? 0 : 1;
         }
 
@@ -159,7 +159,7 @@ namespace Milestone_cst_350.Models
         public bool RevealCell(int row, int col)
         {
             // Get possible cell
-            Cell cell = GetCell(row, col);
+            CellModel cell = GetCell(row, col);
 
             // No cell found at location
             if (cell == null) return true;
@@ -175,6 +175,29 @@ namespace Milestone_cst_350.Models
             if (cell.LiveNeighbors == 0) FloodFill(row, col);
 
             return true;
+        }
+
+        /// <summary>
+        /// Swap the flag status of a cell. If a cell is already flagged,
+        /// the cell will become unflagged. If the cell is not flagged, it
+        /// will be flagged.
+        /// </summary>
+        /// <param name="row">the cell's row position</param>
+        /// <param name="col">the cell's column position</param>
+        /// <returns>true if the cell is now flagged, false otherwise</returns>
+        public bool FlagCell(int row, int col)
+        {
+            // Get possible cell
+            CellModel cell = GetCell(row, col);
+
+            // No cell found at location
+            if (cell == null) return true;
+
+            // Swap the flag status
+            cell.IsFlagged = !cell.IsFlagged;
+
+            // Return the cell's flag status
+            return cell.IsFlagged;
         }
 
         /// <summary>
@@ -217,7 +240,7 @@ namespace Milestone_cst_350.Models
         /// <returns>true if the cell has no live neighbors, otherwise return false</returns>
         private bool FloodReveal(int row, int col)
         {
-            Cell cell = GetCell(row, col);
+            CellModel cell = GetCell(row, col);
             if (cell != null && !cell.IsLive && !cell.IsVisited)
             {
                 cell.IsVisited = true;
@@ -236,7 +259,7 @@ namespace Milestone_cst_350.Models
             {
                 for (int j = 0; j < Size; j++)
                 {
-                    Cell cell = Grid[i, j];
+                    CellModel cell = Grid[i, j];
 
                     if (cell.IsLive)
                     {
