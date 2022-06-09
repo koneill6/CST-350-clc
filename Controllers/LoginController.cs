@@ -17,9 +17,10 @@ namespace Milestone_cst_350.Controllers
         {
             // TODO: Determine if UserModel is just better to use here.
             return _accountService.AuthenticateUser(login) ?
-                View("LoginSuccess")
-                :
-                View("LoginFailure");            
+              RedirectToAction("Index", "UserLanding")
+              :
+              View("LoginFailure");
+
         }
     }
 }
