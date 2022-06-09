@@ -9,7 +9,7 @@ namespace Milestone_cst_350.Models
     /// <summary>
     /// Class for storing all the cell data.
     /// </summary>
-    class Cell
+    public class CellModel
     {
         /// <summary>
         /// The column position of the cell.
@@ -44,7 +44,7 @@ namespace Milestone_cst_350.Models
         /// <summary>
         /// Default constructor for a cell.
         /// </summary>
-        public Cell()
+        public CellModel()
         {
             this.Col = -1;
             this.Row = -1;
