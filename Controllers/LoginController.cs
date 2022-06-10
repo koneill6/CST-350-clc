@@ -13,10 +13,10 @@ namespace Milestone_cst_350.Controllers
             return View();
         }
 
-        public IActionResult ShowLogin(LoginModel login)
+        public IActionResult ShowLogin(UserModel user)
         {
             // TODO: Determine if UserModel is just better to use here.
-            return _accountService.AuthenticateUser(login) ?
+            return _accountService.AuthenticateUser(user) ?
               RedirectToAction("Index", "UserLanding")
               :
               View("LoginFailure");
