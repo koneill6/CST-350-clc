@@ -7,6 +7,13 @@ namespace Milestone_cst_350.Services
     /// </summary>
     public class GameService
     {
+        // TODO: GameSessionService
+        private GameSessionService _gameSessionService = GameSessionService.Instance;
+
+        public GameService()
+        {
+            // ...
+        }
 
         /// <summary>
         /// Create a board game.
@@ -14,9 +21,23 @@ namespace Milestone_cst_350.Services
         /// <param name="boardSize">the length/width of the board</param>
         /// <param name="bombPercentage">the percentage of cells containing bombs</param>
         /// <returns>the new board</returns>
-        public BoardModel CreateGame(int boardSize, float bombPercentage)
+        public BoardModel CreateGame(Guid sessionId, int boardSize, float bombPercentage)
         {
-            return new BoardModel(boardSize, bombPercentage);
+            BoardModel board = new BoardModel(boardSize, bombPercentage);
+
+            return _gameSessionService.PutSession(sessionId, board) ?
+                board
+                :
+                throw new Exception($"Failed to store session: {sessionId}");
+        }
+
+        public BoardModel? GetGameBySessionId(Guid sessionId)
+        {
+            BoardModel board;
+            return _gameSessionService.GetSession(sessionId, out board) ?
+                board
+                :
+                null;
         }
 
         /// <summary>

@@ -1,5 +1,3 @@
-﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-<a href="#">Play Game</a>
+﻿@model UserModel
+
+@Html.ActionLink("Play Game", "Index", "Game", Model)
