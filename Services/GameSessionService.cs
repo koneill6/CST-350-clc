@@ -37,5 +37,16 @@ namespace Milestone_cst_350.Services
             Console.WriteLine($"GameSessionService: Getting Session - {sessionId}");
             return _sessions.TryGetValue(sessionId, out board);
         }
+
+        /// <summary>
+        /// Try and remove a session in the session dictionary.
+        /// </summary>
+        /// <param name="sessionId">session id</param>
+        /// <returns>true on success, false on failure</returns>
+        public bool RemoveSession(Guid sessionId)
+        {
+            Console.WriteLine($"GameSessionService: Removing Session - {sessionId}");
+            return _sessions.Remove(sessionId);
+        }
     }
 }

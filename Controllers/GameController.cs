@@ -8,11 +8,13 @@ namespace Milestone_cst_350.Controllers
     {
         private GameService _gameService = new GameService();
 
-        [HttpGet]
+        private int _size = 10;
+        private float _diff = .15f;
+
         public IActionResult Index(UserModel user)
         {
             Guid sessionId = Guid.NewGuid();
-            _ = _gameService.CreateGame(sessionId, 10, 15);
+            _ = _gameService.CreateGame(sessionId, _size, _diff);
 
             // TODO: Convert to payload model(s) to simplify.
             ViewBag.user = user;
@@ -21,31 +23,35 @@ namespace Milestone_cst_350.Controllers
             return View();
         }
 
-        [HttpGet]
         public IActionResult GetBoard(Guid sessionId)
         {
+            ViewBag.HasWon = _gameService.HasWon(sessionId);
             return PartialView("_Board", _gameService.GetGameBySessionId(sessionId));
         }
 
-        [HttpPost]
-        public IActionResult PostClickBoard()
+        public IActionResult RevealBoard(Guid sessionId, int row, int col)
         {
-            // TODO: BoardService reveal based on session.
-            return View();
+            // TODO: Determine if we want to alert on bad click/session?
+            _ = _gameService.RevelCell(sessionId, row, col);
+            return GetBoard(sessionId);
         }
 
-        [HttpPost]
-        public IActionResult PostFlagBoard()
+        public IActionResult FlagBoard(Guid sessionId, int row, int col)
         {
-            // TODO: BoardService flag based on session.
-            return View();
+            _ = _gameService.FlagCell(sessionId, row, col);
+            return GetBoard(sessionId);
         }
 
-        [HttpDelete]
-        public IActionResult DeleteBoard()
+        public IActionResult ResetBoard(Guid sessionId)
         {
-            // TODO: BoardService reset.
-            return View();
+            // TODO: It would be better to create an entirely new session.
+            // This likely requires a different way to store the User across the browser session.
+            // Cookies?
+
+            _ = _gameService.DeleteGameBySessionId(sessionId);
+            _ = _gameService.CreateGame(sessionId, _size, _diff);
+
+            return GetBoard(sessionId);
         }
     }
 }

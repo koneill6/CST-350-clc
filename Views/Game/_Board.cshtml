@@ -1,4 +1,55 @@
-﻿<h2>This is the Game Partial!</h2>
-<p>TODO: Create table</p>
-<p>TODO: Register Event Handlers</p>
-<p>TODO: Reset Button</p>
+﻿@using Milestone_cst_350.Models;
+@model BoardModel
+
+@if (ViewBag.HasWon)
+{
+    <h1>You won!</h1>
+}
+
+<!-- TODO: Styling -->
+<div class="container text-center mb-5">
+    <p>SCORE HERE?</p>
+    <button class="btn btn-sm btn-danger" id="ms-reset">Reset</button>
+</div>
+
+
+<!-- Wrapping Container -->
+<main class="d-flex flex-column justify-content-center">
+    @{
+        for (int i = 0; i < 10; i++)
+        {
+            // Grid Row
+            <div class="row m-1 justify-content-center">
+                @for (int j = 0; j < 10; j++)
+                {
+                    CellModel cell = Model.GetCell(i, j);
+
+                    string btnId = $"ms-{cell.Row}-{cell.Col}";
+                    string cellId = $"{cell.Row},{cell.Col}";
+                    string className = cell.IsVisited ? "btn-secondary" : "btn-dark";
+                    string value = "";
+
+                    if (cell.IsLive && cell.IsVisited)
+                    {
+                        value = "*";
+                    }
+                    else if (cell.IsVisited)
+                    {
+                        value = cell.LiveNeighbors.ToString();
+                    }
+                    else if (cell.IsFlagged)
+                    {
+                        value = "&";
+                    }
+
+                    // Grid Col
+                    <div class="col-1">
+                        <button class="btn btn-sm @className" id="@btnId" style="width: 35px; height: 35px;">
+                            @value
+                        </button>
+                    </div>
+                }
+            </div>
+        }
+    }
+</main>
