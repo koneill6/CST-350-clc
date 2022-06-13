@@ -30,5 +30,15 @@ namespace Milestone_cst_350.Services
         {
             return _accountDAO.AuthenticateUser(user);
         }
+
+        /// <summary>
+        /// Attempt to Get a User by Username.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>UserModel or null</returns>
+        public UserModel? GetUserByUsername(string username)
+        {
+            return _accountDAO.GetUserByUsername(username);
+        }
     }
 }

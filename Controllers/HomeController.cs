@@ -20,6 +20,11 @@ namespace Milestone_cst_350.Controllers
             return View();
         }
 
+        public IActionResult Test()
+        {
+            return View("test");
+        }
+
         public IActionResult Privacy()
         {
             return View();

@@ -71,3 +71,36 @@ body {
 .ft-style {
     background: #2F2F2F;
 }
+
+/*------Board Game Page-------*/
+
+.gb_title {
+    margin: 2em 0px;
+    color: var(--primary-bg-color);
+}
+
+.gb_score, .gb_reset {
+    font-size: 14pt;
+}
+
+.gb_score {
+    background: var(--primary-bg-color);
+    color: white;
+    width: fit-content;
+    padding: 6px;
+    border-radius: 3px;
+}
+
+.gb_reset {
+    width: fit-content;
+}
+
+.gb_board_grid {
+    background: #D9D9D9;
+    padding: 10px 0px;
+}
+
+.gb_btn_style {
+    color: white;
+    background: #EFEFEF; 
+}

@@ -1,4 +1,5 @@
 ﻿using Milestone_cst_350.Models;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Milestone_cst_350.Services
@@ -26,14 +27,14 @@ namespace Milestone_cst_350.Services
             {
                 SqlCommand cmd = new SqlCommand(stmt, con);
 
-                cmd.Parameters.Add("@firstname", System.Data.SqlDbType.VarChar, 40).Value = user.Firstname;
-                cmd.Parameters.Add("@lastname", System.Data.SqlDbType.VarChar, 40).Value = user.Lastname;
-                cmd.Parameters.Add("@sex", System.Data.SqlDbType.VarChar, 40).Value = user.Sex;
-                cmd.Parameters.Add("@age", System.Data.SqlDbType.Int).Value = user.Age;
-                cmd.Parameters.Add("@state", System.Data.SqlDbType.VarChar, 40).Value = user.State;
-                cmd.Parameters.Add("@email", System.Data.SqlDbType.VarChar, 40).Value = user.Email;
-                cmd.Parameters.Add("@username", System.Data.SqlDbType.VarChar, 40).Value = user.Username;
-                cmd.Parameters.Add("@password", System.Data.SqlDbType.VarChar, 40).Value = user.Password;
+                cmd.Parameters.Add("@firstname", SqlDbType.VarChar, 40).Value = user.Firstname;
+                cmd.Parameters.Add("@lastname", SqlDbType.VarChar, 40).Value = user.Lastname;
+                cmd.Parameters.Add("@sex", SqlDbType.VarChar, 40).Value = user.Sex;
+                cmd.Parameters.Add("@age", SqlDbType.Int).Value = user.Age;
+                cmd.Parameters.Add("@state", SqlDbType.VarChar, 40).Value = user.State;
+                cmd.Parameters.Add("@email", SqlDbType.VarChar, 40).Value = user.Email;
+                cmd.Parameters.Add("@username", SqlDbType.VarChar, 40).Value = user.Username;
+                cmd.Parameters.Add("@password", SqlDbType.VarChar, 40).Value = user.Password;
 
                 try
                 {
@@ -55,6 +56,37 @@ namespace Milestone_cst_350.Services
             return false;
         }
 
+
+        public UserModel? GetUserByUsername(string username)
+        {
+            Console.WriteLine($"GetUserByUsername: {username}");
+
+            string stmt = "SELECT TOP 1 * FROM dbo.users WHERE username=@username";
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand(stmt, con);
+
+                cmd.Parameters.Add("@username", SqlDbType.VarChar, 40).Value = username;
+
+                try
+                {
+                    con.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows && reader.Read())
+                    {
+                        return new UserModel(reader);
+                    }
+                } catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Attempt to Authenticate a User in the database.
         /// </summary>
@@ -70,8 +102,8 @@ namespace Milestone_cst_350.Services
             {
                 SqlCommand cmd = new SqlCommand(stmt, con);
 
-                cmd.Parameters.Add("@username", System.Data.SqlDbType.VarChar, 40).Value = user.Username;
-                cmd.Parameters.Add("@password", System.Data.SqlDbType.VarChar, 40).Value = user.Password;
+                cmd.Parameters.Add("@username", SqlDbType.VarChar, 40).Value = user.Username;
+                cmd.Parameters.Add("@password", SqlDbType.VarChar, 40).Value = user.Password;
 
                 try
                 {

@@ -7,50 +7,56 @@ namespace Milestone_cst_350.Services
     /// </summary>
     public class GameService
     {
+        private GameSessionService _gameSessionService = GameSessionService.Instance;
 
-        /// <summary>
-        /// Create a board game.
-        /// </summary>
-        /// <param name="boardSize">the length/width of the board</param>
-        /// <param name="bombPercentage">the percentage of cells containing bombs</param>
-        /// <returns>the new board</returns>
-        public BoardModel CreateGame(int boardSize, float bombPercentage)
+        public GameService()
         {
-            return new BoardModel(boardSize, bombPercentage);
+            // ...
         }
 
-        /// <summary>
-        /// Revel a cell on the game board.
-        /// </summary>
-        /// <param name="boardModel">the board model</param>
-        /// <param name="row">the cell's row position</param>
-        /// <param name="col">the cell's column position</param>
-        /// <returns>true if the cell is a bomb, otherwise returns false</returns>
-        public bool RevelCell(BoardModel boardModel, int row, int col)
+        // TODO: Docs
+
+        public BoardModel CreateGame(Guid sessionId, int boardSize, float bombPercentage)
         {
-            return boardModel.RevealCell(row, col);
+            BoardModel board = new BoardModel(boardSize, bombPercentage);
+
+            return _gameSessionService.PutSession(sessionId, board) ?
+                board
+                :
+                throw new Exception($"Failed to store session: {sessionId}");
         }
 
-        /// <summary>
-        /// Toggle the flag status of a cell.
-        /// </summary>
-        /// <param name="boardModel">the board model</param>
-        /// <param name="row">the cell's row position</param>
-        /// <param name="col">the cell's column position</param>
-        /// <returns>true if the cell is now flagged, otherwise returns false</returns>
-        public bool FlagCell(BoardModel boardModel, int row, int col)
+        public BoardModel? GetGameBySessionId(Guid sessionId)
         {
-            return boardModel.FlagCell(row, col);
+            BoardModel board;
+            return _gameSessionService.GetSession(sessionId, out board) ?
+                board
+                :
+                null;
         }
 
-        /// <summary>
-        /// Check if the user has won the game.
-        /// </summary>
-        /// <param name="boardModel">the board model</param>
-        /// <returns>true if the user has won the game, otherwise return false</returns>
-        public bool HasWon(BoardModel boardModel)
+        public bool DeleteGameBySessionId(Guid sessionId)
         {
-            return boardModel.IsComplete();
+            return _gameSessionService.RemoveSession(sessionId);
+        }
+
+
+        public bool RevelCell(Guid sessionId, int row, int col)
+        {
+            BoardModel? board = GetGameBySessionId(sessionId);
+            return board != null && board.RevealCell(row, col);
+        }
+
+        public bool FlagCell(Guid sessionId, int row, int col)
+        {
+            BoardModel? board = GetGameBySessionId(sessionId);
+            return board != null && board.FlagCell(row, col);
+        }
+
+        public bool HasWon(Guid sessionId)
+        {
+            BoardModel? board = GetGameBySessionId(sessionId);
+            return board != null && board.IsComplete();
         }
     }
 }
