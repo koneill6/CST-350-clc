@@ -1,0 +1,16 @@
+﻿@{
+    UserModel user = ViewBag.user;
+    Guid sessionId = ViewBag.sessionId;
+}
+
+<!-- Storing the session here for ajax. -->
+<input type="hidden" value="@sessionId" id="session-id"/>
+
+<h1>Minesweeper</h1>
+<hr />
+
+<div id="game-board"></div>
+
+<!-- Scripts: jQuery before board.js -->
+<script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="~/js/board.js" type="text/javascript"></script>

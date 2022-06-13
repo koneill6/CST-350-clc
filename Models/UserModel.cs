@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
 
 namespace Milestone_cst_350.Models
 {
@@ -57,6 +58,20 @@ namespace Milestone_cst_350.Models
             Username = username;
             Password = password;
         }
+
+        public UserModel(SqlDataReader reader)
+            : this(
+                      (int)reader["id"],
+                      (string)reader["firstname"],
+                      (string)reader["lastname"],
+                      (string)reader["sex"],
+                      (int)reader["age"],
+                      (string)reader["state"],
+                      (string)reader["email"],
+                      (string)reader["username"],
+                      (string)reader["password"]
+                  )
+        {}
 
         public override string? ToString()
         {
