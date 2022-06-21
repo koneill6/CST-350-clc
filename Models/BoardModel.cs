@@ -165,7 +165,7 @@ namespace Milestone_cst_350.Models
             CellModel cell = GetCell(row, col);
 
             // No cell found at location
-            if (cell == null) return true;
+            if (cell == null || cell.IsFlagged) return true;
 
             // Cell is a bomb, return true to signify
             if (cell.IsLive)
