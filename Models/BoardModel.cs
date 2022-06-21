@@ -259,21 +259,15 @@ namespace Milestone_cst_350.Models
             {
                 for (int j = 0; j < Size; j++)
                 {
+                    // Get the cell at the cords
                     CellModel cell = Grid[i, j];
 
-                    if (cell.IsLive)
-                    {
-                        // Live bombs need to be flagged
-                        if (!cell.IsFlagged) return false;
-                    }
-                    else
-                    {
-                        // Non-live cells must be visited
-                        if (!cell.IsVisited) return false;
-                    }
+                    // Return false if all cells have not been visited
+                    if (!cell.IsLive && !cell.IsVisited) return false;
                 }
             }
 
+            // Return true if all cells have been visited
             return true;
         }
     }
