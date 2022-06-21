@@ -26,6 +26,7 @@ namespace Milestone_cst_350.Controllers
         public IActionResult GetBoard(Guid sessionId)
         {
             ViewBag.HasWon = _gameService.HasWon(sessionId);
+            ViewBag.HasLost = _gameService.HasLost(sessionId);
             return PartialView("_Board", _gameService.GetGameBySessionId(sessionId));
         }
 

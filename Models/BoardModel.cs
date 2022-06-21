@@ -36,6 +36,8 @@ namespace Milestone_cst_350.Models
         /// </summary>
         public int NumFlaggedCells { get; set; }
 
+        public bool HasLost { get; set; }
+
         /// <summary>
         /// Construct a game board with size and difficulty.
         /// </summary>
@@ -48,6 +50,7 @@ namespace Milestone_cst_350.Models
             BombPercentage = bombPercentage;
             NumBombs = 0;
             NumFlaggedCells = 0;
+            HasLost = false;
 
             // Initialize Grid
             Grid = new CellModel[Size, Size];
@@ -165,11 +168,14 @@ namespace Milestone_cst_350.Models
             if (cell == null) return true;
 
             // Cell is a bomb, return true to signify
-            if (cell.IsLive) return false;
+            if (cell.IsLive)
+            {
+                HasLost = true;
+                return false;
+            }
 
             // Set cell as visited
             cell.IsVisited = true;
-
 
             // Flood fill this cell if no neighbors
             if (cell.LiveNeighbors == 0) FloodFill(row, col);

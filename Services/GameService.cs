@@ -58,5 +58,11 @@ namespace Milestone_cst_350.Services
             BoardModel? board = GetGameBySessionId(sessionId);
             return board != null && board.IsComplete();
         }
+
+        public bool HasLost(Guid sessionId)
+        {
+            BoardModel? board = GetGameBySessionId(sessionId);
+            return board != null && board.HasLost;
+        }
     }
 }

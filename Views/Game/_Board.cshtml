@@ -1,60 +1,76 @@
 ﻿@using Milestone_cst_350.Models;
 @model BoardModel
 
-@if (ViewBag.HasWon)
-{
-    <h1>You won!</h1>
+@{
+    bool IsActive = !ViewBag.HasWon && !ViewBag.HasLost;
+    string WinLoseConditionClass = "text-center";
 }
+
+<!-- Format win / lose messages. -->
+<div class="container text-center" id="win-lose" hidden=@IsActive style="text-align: center;">
+    @if (ViewBag.HasWon)
+    {
+        <h3>You won! Congrats!</h3>
+
+    }
+    else if (ViewBag.HasLost)
+    {
+        <h3>You lost! Better luck next time.</h3>
+    }
+    <br />
+</div>
+
 
 
 <div class="d-flex gb_container">
     <!-- TODO: Styling -->
-<div class="text-center d-flex flex-column align-items-center mb-5 col-4">
-    <p class="gb_score">SCORE HERE?</p>
-    <button class="btn btn-sm btn-danger gb_reset" id="ms-reset">Reset</button>
-</div>
+    <div class="text-center d-flex flex-column align-items-center mb-5 col-4">
+        <p class="gb_score">SCORE HERE?</p>
+        <button class="btn btn-sm btn-danger gb_reset" id="ms-reset">Reset</button>
+    </div>
 
 
-<!-- Wrapping Container -->
-<main class="d-flex flex-column justify-content-center col-5 home_board">
-    <div class="gb_board_grid">
-        @{
-        for (int i = 0; i < 10; i++)
-        {
-            // Grid Row
-            <div class="row m-1 justify-content-center">
-                @for (int j = 0; j < 10; j++)
+    <!-- Wrapping Container -->
+    <main class="d-flex flex-column justify-content-center col-5 home_board">
+        <div class="gb_board_grid">
+            @{
+                for (int i = 0; i < 10; i++)
                 {
-                    CellModel cell = Model.GetCell(i, j);
+                // Grid Row
+                    <div class="row m-1 justify-content-center">
+                        @for (int j = 0; j < 10; j++)
+                        {
+                            CellModel cell = Model.GetCell(i, j);
 
-                    string btnId = $"ms-{cell.Row}-{cell.Col}";
-                    string cellId = $"{cell.Row},{cell.Col}";
-                    string className = cell.IsVisited ? "btn-secondary" : "gb_btn_style";
-                    string value = "";
+                            // Remove button ids if the game is no longer actives
+                            string btnId = IsActive ? $"ms-{cell.Row}-{cell.Col}" : "";
+                            string className = ViewBag.HasWon ? "btn-success" : ViewBag.HasLost ? "btn-danger" : cell.IsVisited ? "btn-secondary" : "gb_btn_style";
+                            string value = "";
 
-                    if (cell.IsLive && cell.IsVisited)
-                    {
-                        value = "*";
-                    }
-                    else if (cell.IsVisited)
-                    {
-                        value = cell.LiveNeighbors.ToString();
-                    }
-                    else if (cell.IsFlagged)
-                    {
-                        value = "&";
-                    }
+                            if (cell.IsLive && !IsActive)
+                            {
+                                value = "*";
+                            }
+                            else if (cell.IsVisited || !IsActive)
+                            {
+                                value = cell.LiveNeighbors.ToString();
+                            }
+                            else if (cell.IsFlagged)
+                            {
+                                value = "&";
+                            }
 
-                    // Grid Col
-                    <div class="col-1">
-                        <button class="btn btn-sm @className" id="@btnId" style="width: 35px; height: 35px;">
-                            @value
-                        </button>
+
+                            // Grid Col
+                            <div class="col-1">
+                                <button class="btn btn-sm @className" id="@btnId" style="width: 35px; height: 35px;">
+                                    @value
+                                </button>
+                            </div>
+                        }
                     </div>
                 }
-            </div>
-        }
-    }
-    </div>
-</main> 
+            }
+        </div>
+    </main>
 </div>
