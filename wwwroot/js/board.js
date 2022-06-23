@@ -56,7 +56,14 @@ function revealCell(sessionId, row, col) {
         },
         dataType: 'html',
         contentType: 'application/json',
-        success: onSuccess,
+        success: (data, status, xhr) => {
+            if (!didFirstClick) {
+                didFirstClick = true;
+                $ms.start();
+            }
+
+            onSuccess(data, status, xhr);
+        },
         error: onError
     });
 }
@@ -88,7 +95,11 @@ function deleteBoard(sessionId) {
         },
         dataType: 'html',
         contentType: 'application/json',
-        success: onSuccess,
+        success: (data, status, xhr) => {
+            didFirstClick = false;
+            $ms.reset();
+            onSuccess(data, status, xhr);
+        },
         error: onError
     });
 }
@@ -98,6 +109,7 @@ function onSuccess(data, status, xhr) {
     _logDebug('xhr', '/Game/GetBoard', true, data, status, xhr);
     $('#game-board').html(data);
     registerButtonHandlers(sessionId);
+    bindTimer();
 }
 
 // Helper for ajax error.
@@ -111,6 +123,17 @@ function _logDebug(source, path, didSucceed, ...payload) {
     console.info(`[${source} ${didSucceed ? 'success' : 'error'}] @ ${path}`, payload);
 }
 
-// Exec.
+function bindTimer() {
+    $ms.el_tens = $('#tens')[0];
+    $ms.el_secs = $('#second')[0];
+    $ms.el_mins = $('#min')[0];
+
+    // Force update to fix timer zeros.
+    $ms.fix();
+}
+
+// Set session, get board.
 const sessionId = $("#session-id").val();
+let didFirstClick = false;
+
 getGameBoard(sessionId);

@@ -1,55 +1,69 @@
-﻿var seconds = 00;
-var tens = 00;
-var min = 00;
-var OutputMin = document.getElementById('min');
-var OutputSeconds = document.getElementById('second');
-var OutputTens = document.getElementById('tens');
-var buttonReset = document.getElementById('ms-reset');
-var interval;
+﻿let timer = {
+    // HTML Elements.
+    el_tens: null,
+    el_secs: null,
+    el_mins: null,
+    // Interval
+    tens: 00,
+    secs: 00,
+    mins: 00,
+    interval: null,
+    start: function() {
+        this.reset();
+        this.interval = setInterval(this.tick.bind(this), 10);
+    },
+    stop: function() {
+        clearInterval(this.interval);
+        this.interval = null;
+    },
+    reset: function () {
+        this.stop();
 
+        this.tens = 00;
+        this.secs = 00;
+        this.mins = 00;
+    },
+    tick: function() {
+        this.tens++;
+        if (this.tens <= 9) {
+            this.el_tens.innerHTML = "0" + this.tens;
+        } else {
+            this.el_tens.innerHTML = this.tens;
+        }
 
-window.onload = function () {
-    clearInterval(interval);
-    interval = setInterval(startTime, 10);
-}
+        if (this.tens > 99) {
+            this.secs++;
 
-//Needs stop function of clearInterval(interval); tied to win/lose condition
+            this.el_secs.innerHTML = "0" + this.secs;
+            this.tens = 0;
 
-buttonReset.addEventListener('click', () => {
-    clearInterval(interval);
-    tens = "00";
-    seconds = "00";
-    OutputSeconds.innerHTML = seconds;
-    OutputTens.innerHTML = tens;
-    console.log("reset button clicked");
-    interval = setInterval(startTime, 10);
-})
+            this.el_tens.innerHTML = "0" + this.tens;
+        }
 
-function startTime() {
-    tens++;
-    if (tens <= 9) {
-        OutputTens.innerHTML = "0" + tens;
-    } else {
-        OutputTens.innerHTML = tens;
+        if (this.secs > 9) {
+            this.el_secs.innerHTML = this.secs;
+        }
+
+        if (this.secs > 59) {
+            this.mins++;
+
+            this.el_mins.innerHTML = "0" + this.mins;
+            this.secs = 0;
+
+            this.el_secs.innerHTML = "0" + this.secs;
+            this.tens = 0;
+
+            this.el_tens.innerHTML = "0" + this.tens;
+        }
+    },
+    fix: function() {
+        this.el_tens.innerHTML = this._format(this.tens);
+        this.el_secs.innerHTML = this._format(this.secs);
+        this.el_mins.innerHTML = this._format(this.mins);
+    },
+    _format: function(n) {
+        return n < 10 ? `0${n}` : n;
     }
+};
 
-    if (tens > 99) {
-        seconds++;
-        OutputSeconds.innerHTML = "0" + seconds;
-        tens = 0;
-        OutputTens.innerHTML = "0" + tens;
-    }
-
-    if (seconds > 9) {
-        OutputSeconds.innerHTML = seconds;
-    }
-
-    if (seconds > 59) {
-        min++;
-        OutputMin.innerHTML = "0" + min;
-        seconds = 0;
-        OutputSeconds.innerHTML = "0" + seconds;
-        tens = 0;
-        OutputTens.innerHTML = "0" + tens;
-    }
-}
+window.$ms = timer;
