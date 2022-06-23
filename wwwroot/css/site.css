@@ -89,16 +89,20 @@ body {
     color: var(--primary-bg-color);
 }
 
-.gb_score, .gb_reset {
+.gb_score, .gb_timer, .gb_reset {
     font-size: 14pt;
 }
 
-.gb_score {
+.gb_score, .gb_timer {
     background: var(--primary-bg-color);
     color: white;
-    width: fit-content;
+    width: 50%;
     padding: 6px;
     border-radius: 3px;
+}
+
+.gb_timer {
+    background-color: #48A7FF;
 }
 
 .gb_reset {
