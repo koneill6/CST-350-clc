@@ -7,38 +7,38 @@
 }
 
 <!-- Format win / lose messages. -->
-<div class="container text-center" id="win-lose" hidden=@IsActive style="text-align: center;">
+<div class="container text-center" id="win-lose" hidden=@IsActive>
     @if (ViewBag.HasWon)
     {
-        <h3>You won! Congrats!</h3>
+        <h3 style="color:green;">You won! Congrats!</h3>
 
     }
     else if (ViewBag.HasLost)
     {
-        <h3>You lost! Better luck next time.</h3>
+        <h3 style="color:red;">You lost! Better luck next time.</h3>
     }
     <br />
 </div>
 
 
 
-<div class="d-flex gb_container">
+<div class="d-flex gb_container justify-content-center">
     <!-- TODO: Styling -->
-    <div class="text-center d-flex flex-column align-items-center mb-5 col-4">
-        <p class="gb_score">SCORE HERE?</p>
-        <button class="btn btn-sm btn-danger gb_reset" id="ms-reset">Reset</button>
+    <div class="text-center d-flex flex-column align-items-center mb-5 col-2">
+        <p class="gb_score align-self-start">SCORE HERE?</p>
+        <button class="btn btn-sm btn-danger gb_reset align-self-start" id="ms-reset">Reset</button>
     </div>
 
 
     <!-- Wrapping Container -->
     <main class="d-flex flex-column justify-content-center col-5 home_board">
-        <div class="gb_board_grid">
+        <div class="gb_board_grid py-5">
             @{
                 for (int i = 0; i < 10; i++)
                 {
                 // Grid Row
-                    <div class="row m-1 justify-content-center">
-                        @for (int j = 0; j < 10; j++)
+                                <div class="row m-1 justify-content-center">
+                                    @for (int j = 0; j < 10; j++)
                         {
                             CellModel cell = Model.GetCell(i, j);
 
@@ -62,13 +62,13 @@
 
 
                             // Grid Col
-                            <div class="col-1">
-                                <button class="btn btn-sm @className" id="@btnId" style="width: 35px; height: 35px;">
-                                    @value
-                                </button>
-                            </div>
+                                        <div class="col-1">
+                                            <button class="btn btn-sm @className" id="@btnId" style="width: 35px; height: 35px;">
+                                                @value
+                                            </button>
+                                        </div>
                         }
-                    </div>
+                                </div>
                 }
             }
         </div>

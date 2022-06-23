@@ -23,7 +23,6 @@ body {
 }
 
 .pg-title {
-    margin-bottom: 2em;
 }
 
 .navbar-style {
@@ -50,7 +49,13 @@ body {
     }
 
         .control-label {
-            margin-right: 1em;
+            width: 30%;
+            margin-right: 10px;
+            text-align: center;
+            background-color: #7848FF;
+            padding: 0 4px;
+            color: white;
+            border-radius: 25px;
         }
 
 .form-btm a {
@@ -68,6 +73,11 @@ body {
         color: var(--primary-font-color);
     }
 
+        .btn-style:hover {
+            background: white;
+            color: var(--primary-bg-color);
+        }
+
 .ft-style {
     background: #2F2F2F;
 }
@@ -75,7 +85,7 @@ body {
 /*------Board Game Page-------*/
 
 .gb_title {
-    margin: 2em 0px;
+    margin: 2em 0 1em 0;
     color: var(--primary-bg-color);
 }
 
@@ -103,4 +113,9 @@ body {
 .gb_btn_style {
     color: white;
     background: #EFEFEF; 
+}
+
+.status-text {
+    color: gray;
+    font-size: 15pt;
 }
