@@ -36,6 +36,8 @@ namespace Milestone_cst_350.Models
         /// </summary>
         public int NumFlaggedCells { get; set; }
 
+        public bool HasLost { get; set; }
+
         /// <summary>
         /// Construct a game board with size and difficulty.
         /// </summary>
@@ -48,6 +50,7 @@ namespace Milestone_cst_350.Models
             BombPercentage = bombPercentage;
             NumBombs = 0;
             NumFlaggedCells = 0;
+            HasLost = false;
 
             // Initialize Grid
             Grid = new CellModel[Size, Size];
@@ -162,14 +165,17 @@ namespace Milestone_cst_350.Models
             CellModel cell = GetCell(row, col);
 
             // No cell found at location
-            if (cell == null) return true;
+            if (cell == null || cell.IsFlagged) return true;
 
             // Cell is a bomb, return true to signify
-            if (cell.IsLive) return false;
+            if (cell.IsLive)
+            {
+                HasLost = true;
+                return false;
+            }
 
             // Set cell as visited
             cell.IsVisited = true;
-
 
             // Flood fill this cell if no neighbors
             if (cell.LiveNeighbors == 0) FloodFill(row, col);
@@ -259,21 +265,15 @@ namespace Milestone_cst_350.Models
             {
                 for (int j = 0; j < Size; j++)
                 {
+                    // Get the cell at the cords
                     CellModel cell = Grid[i, j];
 
-                    if (cell.IsLive)
-                    {
-                        // Live bombs need to be flagged
-                        if (!cell.IsFlagged) return false;
-                    }
-                    else
-                    {
-                        // Non-live cells must be visited
-                        if (!cell.IsVisited) return false;
-                    }
+                    // Return false if all cells have not been visited
+                    if (!cell.IsLive && !cell.IsVisited) return false;
                 }
             }
 
+            // Return true if all cells have been visited
             return true;
         }
     }
