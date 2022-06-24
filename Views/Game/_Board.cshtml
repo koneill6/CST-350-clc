@@ -1,9 +1,8 @@
-﻿@using Milestone_cst_350.Models;
+@using Milestone_cst_350.Models;
 @model BoardModel
 
 @{
     bool IsActive = !ViewBag.HasWon && !ViewBag.HasLost;
-    string WinLoseConditionClass = "text-center";
 }
 
 <!-- Format win / lose messages. -->
@@ -11,24 +10,27 @@
     @if (ViewBag.HasWon)
     {
         <h3>You won! Congrats!</h3>
+        <script>
+            $ms.stop();
+        </script>
 
     }
     else if (ViewBag.HasLost)
     {
         <h3>You lost! Better luck next time.</h3>
+        <script>
+            $ms.stop();
+        </script>
     }
     <br />
 </div>
 
-
-
 <div class="d-flex gb_container">
     <!-- TODO: Styling -->
     <div class="text-center d-flex flex-column align-items-center mb-5 col-4">
-        <p class="gb_score">SCORE HERE?</p>
+        <p class="gb_score"><span id="min">00</span>:<span id="second">00</span>:<span id="tens">00</span></p>
         <button class="btn btn-sm btn-danger gb_reset" id="ms-reset">Reset</button>
     </div>
-
 
     <!-- Wrapping Container -->
     <main class="d-flex flex-column justify-content-center col-5 home_board">
@@ -36,7 +38,7 @@
             @{
                 for (int i = 0; i < 10; i++)
                 {
-                // Grid Row
+                    // Grid Row
                     <div class="row m-1 justify-content-center">
                         @for (int j = 0; j < 10; j++)
                         {
@@ -57,14 +59,14 @@
                             }
                             else if (cell.IsFlagged)
                             {
-                                value = "&";
+                                value = "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-6 w-6\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9\" /></svg>";
                             }
 
 
                             // Grid Col
                             <div class="col-1">
                                 <button class="btn btn-sm @className" id="@btnId" style="width: 35px; height: 35px;">
-                                    @value
+                                    @Html.Raw(value)
                                 </button>
                             </div>
                         }
