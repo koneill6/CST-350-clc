@@ -58,6 +58,78 @@ namespace Milestone_cst_350.Models
         }
 
         /// <summary>
+        /// Create the board model from its serialized form. Construction should
+        /// be called from within try/catch block.
+        /// </summary>
+        /// <param name="value">the serialized form</param>
+        public BoardModel(string value)
+        {
+            // Get serialized arguments
+            string[] args = value.Split("|");
+
+            // Set board fields
+            Size = int.Parse(args[0]);
+            BombPercentage = float.Parse(args[1]);
+            NumBombs = int.Parse(args[2]);
+            NumFlaggedCells = int.Parse(args[3]);
+
+            // Create the Grid
+            Grid = new CellModel[Size, Size];
+
+            // Get status of cells, index corresponds to position of status char
+            string status = args[4];
+            int index = 0;
+
+            // Loop through entire grid
+            for (int i = 0; i < Size; i++)
+            {
+                for (int j = 0; j < Size; j++)
+                {
+                    // Create cell at position
+                    CellModel cell = new CellModel();
+                    cell.Row = i;
+                    cell.Col = j;
+
+                    // Set cell status
+                    if (status[index] == '&')
+                    {
+                        cell.IsFlagged = true;
+                        ++index;
+                    }
+                    cell.IsVisited = status[index] == '+';
+                    cell.IsLive = status[index] == '*';
+                    ++index;
+
+                    // Set cell in grid
+                    Grid[i, j] = cell;
+                }
+            }
+
+            // Calculate the live neighbors
+            CalcLiveNeighbors();
+        }
+
+        /// <summary>
+        /// Serialize the game board.
+        /// </summary>
+        /// <returns>a string representation of the game board</returns>
+        public string Serialize()
+        {
+            StringBuilder sb = new(Size + "|" + BombPercentage + "|" + NumBombs + "|" + NumFlaggedCells + "|");
+
+            // Get all statuses
+            for (int i = 0; i < Size; i++)
+            {
+                for (int j = 0; j < Size; j++)
+                {
+                    sb.Append(GetCell(i, j).GetStatus());
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
         /// Get the cell at the provided position.
         /// </summary>
         /// <param name="row">the cell's row position</param>
@@ -112,7 +184,7 @@ namespace Milestone_cst_350.Models
             }
         }
 
-       
+
         /// <summary>
         /// Get the number of live neighbors for a cell.
         /// </summary>
