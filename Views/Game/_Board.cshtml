@@ -3,6 +3,11 @@
 
 @{
     bool IsActive = !ViewBag.HasWon && !ViewBag.HasLost;
+    <div>
+        Serialized Board: @Model.Serialize()
+        <br>
+        I am located in _Board.cshtml -- delete me when done debugging.
+    </div>
 }
 
 <!-- Format win / lose messages. -->

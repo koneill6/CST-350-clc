@@ -53,5 +53,14 @@ namespace Milestone_cst_350.Models
             this.IsFlagged = false;
             this.IsLive = false;
         }
+
+        /// <summary>
+        /// Get the cell's identifier which corresponds to its state.
+        /// </summary>
+        /// <returns>a string representing the cell's state</returns>
+        public string GetStatus()
+        {
+            return (IsFlagged ? "&" : "") + (IsVisited ? "+" : IsLive ? "*" : "-");
+        }
     }
 }
