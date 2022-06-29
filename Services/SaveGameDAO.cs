@@ -36,8 +36,10 @@ namespace Milestone_cst_350.Services
             return foundGames;
         }
 
-        public void SaveGame(SaveGameModel game)
+        public int SaveGame(SaveGameModel game)
         {
+            int rows = 0;
+
             string statement = "INSERT INTO dbo.savegame (user_id, datetime, savestate) VALUES (@user_id, @savestate)";
 
             using (SqlConnection connection = new(ConnectionString))
@@ -51,7 +53,7 @@ namespace Milestone_cst_350.Services
                 {
                     // Open connection and execute command
                     connection.Open();
-                    command.ExecuteNonQuery();
+                    rows = command.ExecuteNonQuery();
                 }
                 catch (Exception ex)
                 {
@@ -59,6 +61,7 @@ namespace Milestone_cst_350.Services
                 }
             }
 
+            return rows;
         }
 
         public List<SaveGameModel> GetAllGamesByUserId(int userId)
