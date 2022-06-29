@@ -38,13 +38,60 @@ namespace Milestone_cst_350.Services
 
         public void SaveGame(SaveGameModel game)
         {
-            // TODO: Save Game
+            string statement = "INSERT INTO dbo.savegame (user_id, datetime, savestate) VALUES (@user_id, @savestate)";
+
+            using (SqlConnection connection = new(ConnectionString))
+            {
+                // Add parameters to command
+                SqlCommand command = new(statement, connection);
+                command.Parameters.AddWithValue("@user_id", game.user_id);
+                command.Parameters.AddWithValue("@savestate", game.save_state);
+
+                try
+                {
+                    // Open connection and execute command
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
         }
 
-        public List<SaveGameModel> GetAllGamesByUserId(int id)
+        public List<SaveGameModel> GetAllGamesByUserId(int userId)
         {
-            // TODO: Get All Games
-            return null;
+            // All games
+            List<SaveGameModel> foundGames = new List<SaveGameModel>();
+
+            // Sql statement to execute
+            string sqlstatment = "SELECT * FROM dbo.savegame WHERE user_id=@user_id";
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(sqlstatment, connection);
+                command.Parameters.AddWithValue("@user_id", userId);
+
+                try
+                {
+                    // Open connection and execute command
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        foundGames.Add(new SaveGameModel((int)reader[0], (int)reader[1], (DateTime)reader[2], (string)reader[3]));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return foundGames;
         }
 
         public SaveGameModel GetGameById(int id)
