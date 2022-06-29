@@ -3,18 +3,15 @@ using System.Data.SqlClient;
 
 namespace Milestone_cst_350.Services
 {
-    public class SaveGameDAO
+    public class SaveGameDAO : DataService
     {
-
-        string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
-        public List<SaveGameModel> AllProducts()
+        public List<SaveGameModel> AllGames()
         {
-            List<SaveGameModel> foundproducts = new List<SaveGameModel>();
+            List<SaveGameModel> foundGames = new List<SaveGameModel>();
 
             string sqlstatment = "select * from dbo.savegame";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 SqlCommand command = new SqlCommand(sqlstatment, connection);
 
@@ -25,7 +22,7 @@ namespace Milestone_cst_350.Services
 
                     while (reader.Read())
                     {
-                        foundproducts.Add(new SaveGameModel((int)reader[0], (int)reader[1], (DateTime)reader[2], (string)reader[3]));
+                        foundGames.Add(new SaveGameModel((int)reader[0], (int)reader[1], (DateTime)reader[2], (string)reader[3]));
                     }
                 }
                 catch (Exception ex)
@@ -36,15 +33,25 @@ namespace Milestone_cst_350.Services
             }
 
 
-            return foundproducts;
+            return foundGames;
         }
 
+        public void SaveGame(SaveGameModel game)
+        {
+            // TODO: Save Game
+        }
+
+        public List<SaveGameModel> GetAllGamesByUserId(int id)
+        {
+            // TODO: Get All Games
+            return null;
+        }
 
         public SaveGameModel GetGameById(int id)
         {
-            SaveGameModel foundProduct = null;
+            SaveGameModel foundGame = null;
             string sqlStatement = "select * from dbo.savegame where Id = @id";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 SqlCommand command = new SqlCommand(sqlStatement, connection);
                 command.Parameters.AddWithValue("@id", id);
@@ -56,7 +63,7 @@ namespace Milestone_cst_350.Services
 
                     while (reader.Read())
                     {
-                        foundProduct = new SaveGameModel((int)reader[0], (int)reader[1], (DateTime)reader[2], (string)reader[3]);
+                        foundGame = new SaveGameModel((int)reader[0], (int)reader[1], (DateTime)reader[2], (string)reader[3]);
                     }
                 }
                 catch (Exception ex)
@@ -65,15 +72,14 @@ namespace Milestone_cst_350.Services
                 }
             }
 
-
-            return foundProduct;
+            return foundGame;
         }
 
-        public int DeleteProductById(int id)
+        public int DeleteGameById(int id)
         {
             int rowsImpacted = 0;
             string sqlStatement = "delete from dbo.savegame where Id = @id";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 SqlCommand command = new SqlCommand(sqlStatement, connection);
                 command.Parameters.AddWithValue("@id", id);

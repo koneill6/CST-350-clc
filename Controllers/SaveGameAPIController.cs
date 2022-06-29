@@ -13,7 +13,7 @@ namespace Milestone_cst_350.Controllers
         [HttpGet("showSavedGames")]
         public IEnumerable<SaveGameModel> Index()
         {
-            List<SaveGameModel> saveGameList = repo.AllProducts();
+            List<SaveGameModel> saveGameList = repo.AllGames();
             return saveGameList;
         }
 
@@ -28,7 +28,7 @@ namespace Milestone_cst_350.Controllers
         public ActionResult<SaveGameModel> DeleteOneProduct(int Id)
         {
             //returning null since nothing is being returned
-            repo.DeleteProductById(Id);
+            repo.DeleteGameById(Id);
             return null;
         }
     }
