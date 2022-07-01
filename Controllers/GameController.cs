@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using Milestone_cst_350.Models;
 using Milestone_cst_350.Services;
 
@@ -11,13 +12,29 @@ namespace Milestone_cst_350.Controllers
         private int _size = 10;
         private float _diff = .15f;
 
-        public IActionResult Index(UserModel user)
+        public IActionResult Index()
         {
-            Guid sessionId = Guid.NewGuid();
-            _ = _gameService.CreateGame(sessionId, _size, _diff);
+            // Reject no-user.
+            string? username = HttpContext.Session.GetString("user");
+            if (username == null) RedirectToAction("Index", "Login");
 
-            // TODO: Convert to payload model(s) to simplify.
-            ViewBag.user = user;
+            // Session.
+            Guid sessionId;
+
+            string? session = HttpContext.Session.GetString("guid");
+            if (session == null)
+            {
+                sessionId = Guid.NewGuid();
+                session = sessionId.ToString();
+
+                _ = _gameService.CreateGame(sessionId, _size, _diff);
+                HttpContext.Session.SetString("guid", session);
+            }
+            else
+            {
+                sessionId = Guid.Parse(session);
+            }
+
             ViewBag.sessionId = sessionId;
 
             return View();
@@ -27,12 +44,12 @@ namespace Milestone_cst_350.Controllers
         {
             ViewBag.HasWon = _gameService.HasWon(sessionId);
             ViewBag.HasLost = _gameService.HasLost(sessionId);
+
             return PartialView("_Board", _gameService.GetGameBySessionId(sessionId));
         }
 
         public IActionResult RevealBoard(Guid sessionId, int row, int col)
         {
-            // TODO: Determine if we want to alert on bad click/session?
             _ = _gameService.RevelCell(sessionId, row, col);
             return GetBoard(sessionId);
         }
@@ -43,16 +60,14 @@ namespace Milestone_cst_350.Controllers
             return GetBoard(sessionId);
         }
 
-        public IActionResult ResetBoard(Guid sessionId)
+        public HttpStatusCode ResetBoard(Guid sessionId)
         {
-            // TODO: It would be better to create an entirely new session.
-            // This likely requires a different way to store the User across the browser session.
-            // Cookies?
+            HttpContext.Session.Remove("guid");
 
-            _ = _gameService.DeleteGameBySessionId(sessionId);
-            _ = _gameService.CreateGame(sessionId, _size, _diff);
-
-            return GetBoard(sessionId);
+            return _gameService.DeleteGameBySessionId(sessionId) ? 
+                HttpStatusCode.NoContent 
+                : 
+                HttpStatusCode.InternalServerError;
         }
     }
 }

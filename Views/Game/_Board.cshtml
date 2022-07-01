@@ -1,8 +1,8 @@
-@using Milestone_cst_350.Models;
 @model BoardModel
 
 @{
     bool IsActive = !ViewBag.HasWon && !ViewBag.HasLost;
+
     <div>
         Serialized Board: @Model.Serialize()
         <br>

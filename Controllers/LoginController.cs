@@ -15,10 +15,11 @@ namespace Milestone_cst_350.Controllers
 
         public IActionResult ShowLogin(UserModel user)
         {
-            return _accountService.AuthenticateUser(user) ?
-              RedirectToAction("Index", "UserLanding", new { username = user.Username })
-              :
-              View("LoginFailure");
+
+            if (!_accountService.AuthenticateUser(user)) return View("LoginFailure");
+
+            HttpContext.Session.SetString("user", user.Username);
+            return RedirectToAction("Index", "UserLanding", new { username = user.Username });
         }
     }
 }

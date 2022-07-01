@@ -11,11 +11,10 @@ namespace Milestone_cst_350.Controllers
         public IActionResult Index(string username)
         {
             UserModel? user = _accountService.GetUserByUsername(username);
+            if (user == null) return RedirectToAction("Index", "Login");
 
-            return user == null ?
-                RedirectToAction("Index", "Login")
-                :
-                View(user);
+            HttpContext.Session.SetString("user", user.Username);
+            return View(user);
         }
     }
 }

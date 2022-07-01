@@ -96,9 +96,8 @@ function deleteBoard(sessionId) {
         dataType: 'html',
         contentType: 'application/json',
         success: (data, status, xhr) => {
-            didFirstClick = false;
-            $ms.reset();
-            onSuccess(data, status, xhr);
+            // We need to navigate back to index to trigger a new game. Reload works fine here.
+            window.location.reload();
         },
         error: onError
     });
