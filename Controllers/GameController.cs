@@ -72,5 +72,10 @@ namespace Milestone_cst_350.Controllers
                 : 
                 HttpStatusCode.InternalServerError;
         }
+
+        public IActionResult ViewGames()
+        {
+            return View();
+        }
     }
 }

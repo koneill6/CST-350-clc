@@ -157,3 +157,4 @@ const sessionId = $("#session-id").val();
 let didFirstClick = false;
 
 getGameBoard(sessionId);
+
