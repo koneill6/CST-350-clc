@@ -2,6 +2,9 @@
 
 <input type="hidden" value="@Model.Id" id="user-id"/>
 
-@Html.ActionLink("Play Game", "Index", "Game", Model)
+<div class="btn gb_link_style my-3">
+    @Html.ActionLink("Play Game", "Index", "Game", Model)
+</div>
+
 
 <partial name="_SavedGamesTable"/>

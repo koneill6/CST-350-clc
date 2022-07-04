@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Milestone_cst_350.Models.SaveGameModel>
+
+<table class="table">
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.user_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.save_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.save_state)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

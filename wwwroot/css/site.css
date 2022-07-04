@@ -79,7 +79,7 @@ body {
     color: var(--primary-bg-color);
 }
 
-.gb_score, .gb_reset {
+.gb_score, .gb_reset, .gb_save {
     font-size: 14pt;
 }
 
@@ -91,9 +91,17 @@ body {
     border-radius: 3px;
 }
 
-.gb_reset {
+.gb_reset, .gb_save {
     width: fit-content;
 }
+
+.gb_save {
+    color: white;
+}
+
+    .gb_save:hover {
+        color: white;
+    }
 
 .gb_board_grid {
     background: #D9D9D9;
@@ -103,6 +111,38 @@ body {
 .gb_btn_style {
     color: white;
     background: #EFEFEF; 
+}
+
+.gb_link_style {
+    color: black;
+    background: #EFEFEF;
+}
+
+    .gb_link_style:hover {
+        background: transparent;
+        border: 1px #7949FD solid;
+    }
+
+    .gb_link_style a {
+        text-decoration: none;
+        color: #7949FD;
+    }
+
+.gb_btn_style_api {
+    color: white;
+    background: var(--primary-bg-color);
+}
+
+    .gb_btn_style_api:hover {
+        color: white;
+    }
+
+.btn_api_style {
+    width: 10em;
+}
+
+.ss_text_style {
+    color: black;
 }
 
 .hidden {

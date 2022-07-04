@@ -27,6 +27,7 @@ function onSuccess(data, status, xhr) {
         //  onSuccess -> window.location.reload()
 
         let row = document.createElement('tr');
+        row.className = "sg_table";
 
         let id = document.createElement('td');
         id.innerText = data[i].id;
@@ -35,16 +36,41 @@ function onSuccess(data, status, xhr) {
         date.innerText = data[i].save_date;
 
         let buttons = document.createElement('td');
+        buttons.className = "d-flex justify-content-around btn_api_style"
 
         // TODO: Assign id.
         // TODO: Bind event handler for click.
         let playButton = document.createElement('button');
         playButton.innerText = "Play";
+        playButton.className = "btn gb_btn_style_api"
+        playButton.onclick = function () {
+            $.ajax({
+                url: `api/savedGames/${data[i].id}/load`,
+                type: 'GET',
+                contentType: 'application/x-www-form-urlencoded',
+                success: (data, status, xhr) => {
+                    window.location = `Game/Index/${1}`;
+                },
+                error: onError
+            });
+        }
 
         // TODO: Assign id.
         // TODO: Bind event handler for click.
         let deleteButton = document.createElement('button');
         deleteButton.innerText = "Delete";
+        deleteButton.className = "btn btn-danger"
+        deleteButton.onclick = function () {
+            $.ajax({
+                url: `api/savedGames/${data[i].id}`,
+                type: 'DELETE',
+                contentType: 'application/x-www-form-urlencoded',
+                success: (data, status, xhr) => {
+                    window.location = window.location.reload();
+                },
+                error: onError
+            });
+        }
 
         buttons.appendChild(playButton);
         buttons.appendChild(deleteButton);
@@ -59,18 +85,6 @@ function onSuccess(data, status, xhr) {
 
         tbody.appendChild(row);
     }
-
-        // TODO: Bind these to the play buttons.
-        // TODO: Same thing for DELETE ajax. Type: 'DELETE'
-        //    $.ajax({
-        //            url: `api/savedGames/${data[i].id}/load`,
-        //            type: 'GET',
-        //            contentType: 'application/x-www-form-urlencoded',
-        //            success: (data, status, xhr) => {
-        //                window.location = `Game/Index/${1}`;
-        //            },
-        //            error: onError
-        //        });
 }
 
 // Helper for ajax error.
