@@ -26,6 +26,17 @@ namespace Milestone_cst_350.Services
                 throw new Exception($"Failed to store session: {sessionId}");
         }
 
+        public Guid CreateGameWithSaveState(string saveState)
+        {
+            BoardModel board = new BoardModel(saveState);
+            Guid guid = Guid.NewGuid();
+
+            return _gameSessionService.PutSession(guid, board) ?
+                guid
+                :
+                throw new Exception($"Failed to store session: {guid}");
+        }
+
         public BoardModel? GetGameBySessionId(Guid sessionId)
         {
             BoardModel board;

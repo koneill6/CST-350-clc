@@ -36,6 +36,9 @@ namespace Milestone_cst_350.Controllers
             }
 
             ViewBag.sessionId = sessionId;
+            ViewBag.userId = int.Parse(HttpContext.Session.GetString("id")!);
+            ViewBag.username = username!;
+
 
             return View();
         }

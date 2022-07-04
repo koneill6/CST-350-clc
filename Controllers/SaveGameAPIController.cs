@@ -9,6 +9,7 @@ namespace Milestone_cst_350.Controllers
     public class SaveGameAPIController : ControllerBase
     {
         private SaveGameDAO _dao;
+        private GameService _gameService = new GameService();
 
         public SaveGameAPIController()
         {
@@ -27,33 +28,43 @@ namespace Milestone_cst_350.Controllers
             return _dao.GetGameById(id);
         }
 
+        [HttpDelete("savedGames/{id}")]
+        public StatusCodeResult DeleteGameById(int id)
+        {
+            // If we deleted something, 204 - no content, else, 500 - server error.
+            return _dao.DeleteGameById(id) > 0 ?
+                StatusCode(204)
+                :
+                StatusCode(500);
+        }
+
+        [HttpGet("savedGames/{id}/load")]
+        public StatusCodeResult LoadSavedGameById(int id)
+        {
+            // Get existing game.
+            SaveGameModel model = _dao.GetGameById(id);
+            Guid sessionId = _gameService.CreateGameWithSaveState(model.save_state);
+
+            // Store new session id.
+            HttpContext.Session.SetString("guid", sessionId.ToString());
+
+            return StatusCode(204);
+        }
+
         [HttpGet("savedGames/user/{userId}")]
         public IEnumerable<SaveGameModel> GetSavedGameByUserId(int userId)
         {
             return _dao.GetAllGamesByUserId(userId);
         }
 
-        // TODO: Determine if this payload is even valid.
-        // The alternative / simpler solution might be to instead set a global variable in the js (eg. $ms.serialized)
-        // and then pass in the the serialized string to with the UserId instead. eg. ( { userId, board } ) where board is serialized.
         [HttpPost("savedGames")]
-        public StatusCodeResult PostSaveGame(SaveGamePayload payload)
+        public StatusCodeResult PostSaveGame([FromForm] string payload, [FromForm] string userId)
         {
             // If we created something, 204 - no content, else, 500 - server error.
-            SaveGameModel model = new SaveGameModel(-1, payload.UserId, DateTime.Now, payload.Board.Serialize());
+            SaveGameModel model = new SaveGameModel(-1, int.Parse(userId), DateTime.Now, payload);
             return _dao.SaveGame(model) > 0
                 ? StatusCode(204)
                 : StatusCode(500);
-        }
-
-        [HttpDelete("savedGames/{id}")]
-        public StatusCodeResult DeleteGameById(int id)
-        {
-            // If we deleted something, 204 - no content, else, 500 - server error.
-            return _dao.DeleteGameById(id) > 0 ?
-                    StatusCode(204)
-                    :
-                    StatusCode(500);
         }
     }
 }

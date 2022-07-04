@@ -27,6 +27,9 @@ function registerButtonHandlers(sessionId) {
 
     // Reset Button Handler
     $('#ms-reset').click((ev) => deleteBoard(sessionId));
+
+    // Save Button Handler
+    $('#ms-save').click((ev) => saveGame());
 }
 
 // Get the GameBoard partial.
@@ -98,6 +101,24 @@ function deleteBoard(sessionId) {
         success: (data, status, xhr) => {
             // We need to navigate back to index to trigger a new game. Reload works fine here.
             window.location.reload();
+        },
+        error: onError
+    });
+}
+
+function saveGame() {
+    $.ajax({
+        url: '/api/savedGames',
+        type: 'POST',
+        data: {
+            payload: $("#board-serialized").val(),
+            userId: $("#user-id").val()
+        },
+        dataType: 'json',
+        contentType: 'application/x-www-form-urlencoded',
+        success: (data, status, xhr) => {
+            _logDebug('api-xhr', '/api/savedGames', true, data, status, xhr);
+            window.location = `/UserLanding?username=${$("#user-name").val()}`;
         },
         error: onError
     });

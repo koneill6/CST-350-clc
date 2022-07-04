@@ -40,13 +40,15 @@ namespace Milestone_cst_350.Services
         {
             int rows = 0;
 
-            string statement = "INSERT INTO dbo.savegame (user_id, datetime, savestate) VALUES (@user_id, @savestate)";
+            string statement = "INSERT INTO dbo.savegame (user_id, datetime, savestate) VALUES (@user_id, @datetime, @savestate)";
 
             using (SqlConnection connection = new(ConnectionString))
             {
                 // Add parameters to command
                 SqlCommand command = new(statement, connection);
+
                 command.Parameters.AddWithValue("@user_id", game.user_id);
+                command.Parameters.AddWithValue("@datetime", game.save_date);
                 command.Parameters.AddWithValue("@savestate", game.save_state);
 
                 try

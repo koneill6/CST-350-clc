@@ -1,3 +1,7 @@
 ﻿@model UserModel
 
+<input type="hidden" value="@Model.Id" id="user-id"/>
+
 @Html.ActionLink("Play Game", "Index", "Game", Model)
+
+<partial name="_SavedGamesTable"/>
