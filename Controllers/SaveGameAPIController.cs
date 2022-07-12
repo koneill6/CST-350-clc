@@ -32,7 +32,8 @@ namespace Milestone_cst_350.Controllers
         public StatusCodeResult DeleteGameById(int id)
         {
             // If we deleted something, 204 - no content, else, 500 - server error.
-            return _dao.DeleteGameById(id) > 0 ?
+            // TODO: Determine scalar return
+            return _dao.DeleteGameById(id) == 0 ?
                 StatusCode(204)
                 :
                 StatusCode(500);
