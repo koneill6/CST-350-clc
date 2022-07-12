@@ -27,6 +27,9 @@ function registerButtonHandlers(sessionId) {
 
     // Reset Button Handler
     $('#ms-reset').click((ev) => deleteBoard(sessionId));
+
+    // Save Button Handler
+    $('#ms-save').click((ev) => saveGame());
 }
 
 // Get the GameBoard partial.
@@ -103,6 +106,24 @@ function deleteBoard(sessionId) {
     });
 }
 
+function saveGame() {
+    $.ajax({
+        url: '/api/savedGames',
+        type: 'POST',
+        data: {
+            payload: $("#board-serialized").val(),
+            userId: $("#user-id").val()
+        },
+        dataType: 'json',
+        contentType: 'application/x-www-form-urlencoded',
+        success: (data, status, xhr) => {
+            _logDebug('api-xhr', '/api/savedGames', true, data, status, xhr);
+            window.location = `/UserLanding?username=${$("#user-name").val()}`;
+        },
+        error: onError
+    });
+}
+
 // Helper for ajax success.
 function onSuccess(data, status, xhr) {
     _logDebug('xhr', '/Game/GetBoard', true, data, status, xhr);
@@ -136,3 +157,4 @@ const sessionId = $("#session-id").val();
 let didFirstClick = false;
 
 getGameBoard(sessionId);
+

@@ -1,8 +1,12 @@
 ﻿@{
     Guid sessionId = ViewBag.sessionId;
+    int userId = ViewBag.userId;
+    string username = ViewBag.username;
 }
 
 <input type="hidden" value="@sessionId" id="session-id"/>
+<input type="hidden" value="@userId" id="user-id"/>
+<input type="hidden" value="@username" id="user-name"/>
 
 <h1 class="text-center gb_title">Minesweeper</h1>
 

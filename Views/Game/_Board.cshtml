@@ -2,13 +2,9 @@
 
 @{
     bool IsActive = !ViewBag.HasWon && !ViewBag.HasLost;
-
-    <div>
-        Serialized Board: @Model.Serialize()
-        <br>
-        I am located in _Board.cshtml -- delete me when done debugging.
-    </div>
 }
+
+<input type="hidden" value="@Model.Serialize()" id="board-serialized"/>
 
 <!-- Format win / lose messages. -->
 <div class="container text-center" id="win-lose" hidden=@IsActive style="text-align: center;">
@@ -35,6 +31,7 @@
     <div class="text-center d-flex flex-column align-items-center mb-5 col-4">
         <p class="gb_score"><span id="min">00</span>:<span id="second">00</span>:<span id="tens">00</span></p>
         <button class="btn btn-sm btn-danger gb_reset" id="ms-reset">Reset</button>
+        <button class="btn btn-sm btn-info" id="ms-save">Save</button>
     </div>
 
     <!-- Wrapping Container -->

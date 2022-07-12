@@ -14,6 +14,7 @@ namespace Milestone_cst_350.Controllers
             if (user == null) return RedirectToAction("Index", "Login");
 
             HttpContext.Session.SetString("user", user.Username);
+            HttpContext.Session.SetString("id", user.Id.ToString());
             return View(user);
         }
     }
