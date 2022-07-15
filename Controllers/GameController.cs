@@ -5,6 +5,7 @@ using Milestone_cst_350.Services;
 
 namespace Milestone_cst_350.Controllers
 {
+    [UserAuthorization]
     public class GameController : Controller
     {
         private GameService _gameService = new GameService();
@@ -14,10 +15,6 @@ namespace Milestone_cst_350.Controllers
 
         public IActionResult Index()
         {
-            // Reject no-user.
-            string? username = HttpContext.Session.GetString("user");
-            if (username == null) RedirectToAction("Index", "Login");
-
             // Session.
             Guid sessionId;
 
@@ -37,7 +34,7 @@ namespace Milestone_cst_350.Controllers
 
             ViewBag.sessionId = sessionId;
             ViewBag.userId = int.Parse(HttpContext.Session.GetString("id")!);
-            ViewBag.username = username!;
+            ViewBag.username = HttpContext.Session.GetString("user")!;
 
 
             return View();
