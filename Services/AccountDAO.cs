@@ -6,6 +6,7 @@ namespace Milestone_cst_350.Services
 {
     public class AccountDAO : DataService
     {
+        // Default Constructor
         public AccountDAO()
         {
             // ...
@@ -16,6 +17,7 @@ namespace Milestone_cst_350.Services
         /// </summary>
         /// <param name="user"></param>
         /// <returns>true on success, false on failure</returns>
+        /// This method will create a user through inserting data using sql statements
         public bool CreateUser(UserModel user)
         {
             Console.WriteLine($"CreateUser: {user}");
@@ -36,6 +38,7 @@ namespace Milestone_cst_350.Services
                 cmd.Parameters.Add("@username", SqlDbType.VarChar, 40).Value = user.Username;
                 cmd.Parameters.Add("@password", SqlDbType.VarChar, 40).Value = user.Password;
 
+                // If error occurs in the process, the error msg will print on the console
                 try
                 {
                     con.Open();
@@ -56,7 +59,7 @@ namespace Milestone_cst_350.Services
             return false;
         }
 
-
+        // Will use an SQL select statement to retrieve a user's information using their username
         public UserModel? GetUserByUsername(string username)
         {
             Console.WriteLine($"GetUserByUsername: {username}");

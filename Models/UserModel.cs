@@ -5,6 +5,8 @@ namespace Milestone_cst_350.Models
 {
     public class UserModel
     {
+        // User Model Class Properties
+        // Each property will have an error message when data is inputed incorrectly
         public int Id { get; set; }
 
         [Display(Name = "First Name"), Required]
@@ -41,11 +43,13 @@ namespace Milestone_cst_350.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        // Default Constructor
         public UserModel()
         {
             // ...
         }
 
+        // User Model Class Constructor
         public UserModel(int id, string firstname, string lastname, string sex, int age, string state, string email, string username, string password)
         {
             Id = id;
@@ -59,6 +63,8 @@ namespace Milestone_cst_350.Models
             Password = password;
         }
 
+        // SQL Data Reader for user model class
+        // This method will parse all the model data and SQL inject it.
         public UserModel(SqlDataReader reader)
             : this(
                       (int)reader["id"],
@@ -73,6 +79,7 @@ namespace Milestone_cst_350.Models
                   )
         {}
 
+        // Returns model data in the form of a string
         public override string? ToString()
         {
             return string.Format(

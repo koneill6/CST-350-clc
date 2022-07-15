@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+<!-- Main Layout for all pages in project -->
 <head>
+    <!-- Scripts, Stylesheets, and Metadata -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CST-350 Milestone</title>
@@ -10,6 +12,7 @@
 </head>
 <body>
     <header>
+        <!-- Bootstrap Navigation Bar -->
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 navbar-style">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -17,6 +20,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <!-- Page routes: Home, Login, and Register -->
                     <ul class="navbar-nav d-flex flex-grow-1 justify-content-around navbar-items">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -33,17 +37,21 @@
         </nav>
     </header>
 
+    <!-- Where all content will be rendered -->
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
+    <!-- Footer content -->
     <footer>
         <div class="navbar fixed-bottom ft-style d-flex justify-content-center align-items-center">
             <p class="text-muted text-center">&copy; 2022 - CST-350 Milestone</p>
         </div>
     </footer>
+
+    <!-- The Scripts that will be Rendered last -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

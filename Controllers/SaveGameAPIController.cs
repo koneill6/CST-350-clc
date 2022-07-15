@@ -8,14 +8,17 @@ namespace Milestone_cst_350.Controllers
     [Route("api")]
     public class SaveGameAPIController : ControllerBase
     {
+        // Game Service and Save Game DAO
         private SaveGameDAO _dao;
         private GameService _gameService = new GameService();
 
+        // Intiate a new DAO
         public SaveGameAPIController()
         {
             _dao = new SaveGameDAO();
         }
-
+        
+        // Returns all the games located in the DAO
         [HttpGet("savedGames")]
         public IEnumerable<SaveGameModel> GetAllSavedGames()
         {
@@ -28,6 +31,7 @@ namespace Milestone_cst_350.Controllers
             return _dao.GetGameById(id);
         }
 
+        // Deletes a game from the DAO
         [HttpDelete("savedGames/{id}")]
         public StatusCodeResult DeleteGameById(int id)
         {
@@ -38,6 +42,7 @@ namespace Milestone_cst_350.Controllers
                 StatusCode(500);
         }
 
+        // Loads a game by an ID from the DAO
         [HttpGet("savedGames/{id}/load")]
         public StatusCodeResult LoadSavedGameById(int id)
         {
@@ -51,11 +56,13 @@ namespace Milestone_cst_350.Controllers
             return StatusCode(204);
         }
 
+        // Retrieves a saved game from the DAO
         [HttpGet("savedGames/user/{userId}")]
         public IEnumerable<SaveGameModel> GetSavedGameByUserId(int userId)
         {
             return _dao.GetAllGamesByUserId(userId);
         }
+
 
         [HttpPost("savedGames")]
         public StatusCodeResult PostSaveGame([FromForm] string payload, [FromForm] string userId)

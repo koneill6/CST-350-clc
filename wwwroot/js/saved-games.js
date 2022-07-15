@@ -1,4 +1,5 @@
-﻿function getSavedGamesByUserId() {
+﻿// Utilize AJAX call to retrieve saved games by user ID
+function getSavedGamesByUserId() {
     const userId = $('#user-id').val();
 
     $.ajax({
@@ -14,17 +15,12 @@
 function onSuccess(data, status, xhr) {
     _logDebug('xhr', '/UserLanding', true, data, status, xhr);
 
-    // TODO: jQuery get the table body by id.
+    // Retrieve the table body by id.
     let tbody = document.getElementById("save-game-table-body");
 
+    // Create and populated the page where all the saved boards will be
     for (let i = 0; i < data.length; i++) {
-        // TODO: Append each data row as an element into the table body. (save_state is hidden so we can access it later)
-        // id, save_date, save_state, user_id
         console.log(data[i]);
-
-        // TODO: When adding buttons, register event handlers for their respective ajax calls.
-        // DELETE -> DELETE /savedGames/{id}. Where id is the data[i].id
-        //  onSuccess -> window.location.reload()
 
         let row = document.createElement('tr');
         row.className = "sg_table";
@@ -38,8 +34,7 @@ function onSuccess(data, status, xhr) {
         let buttons = document.createElement('td');
         buttons.className = "d-flex justify-content-around btn_api_style"
 
-        // TODO: Assign id.
-        // TODO: Bind event handler for click.
+        // Retrieve Previous Game Board - AJAX call
         let playButton = document.createElement('button');
         playButton.innerText = "Play";
         playButton.className = "btn gb_btn_style_api"
@@ -55,8 +50,7 @@ function onSuccess(data, status, xhr) {
             });
         }
 
-        // TODO: Assign id.
-        // TODO: Bind event handler for click.
+        // Delete board AJAX call
         let deleteButton = document.createElement('button');
         deleteButton.innerText = "Delete";
         deleteButton.className = "btn btn-danger"
@@ -71,6 +65,8 @@ function onSuccess(data, status, xhr) {
                 error: onError
             });
         }
+
+        // Append all created child elements to the table
 
         buttons.appendChild(playButton);
         buttons.appendChild(deleteButton);

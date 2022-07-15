@@ -1,12 +1,11 @@
+/*Main CSS Document for the milestone*/
+/*-------CSS Variables--------*/
 :root {
     --primary-bg-color: #7848FF;
     --primary-font-color: #FFFFFF;
 }
 
-html {
-  font-size: 14px;
-}
-
+/*-------Media Queries--------*/
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -14,14 +13,17 @@ html {
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
+    font-size: 14px;
 }
 
 body {
   margin-bottom: 60px;
 }
 
+
+/*-------Navigation and Header styles--------*/
 .pg-title {
     margin-bottom: 2em;
 }

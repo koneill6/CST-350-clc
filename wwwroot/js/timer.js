@@ -12,10 +12,12 @@
         this.reset();
         this.interval = setInterval(this.tick.bind(this), 10);
     },
+    // Stop function
     stop: function() {
         clearInterval(this.interval);
         this.interval = null;
     },
+    // Reset function
     reset: function () {
         this.stop();
 
@@ -23,6 +25,7 @@
         this.secs = 00;
         this.mins = 00;
     },
+    // Tick funcction
     tick: function() {
         this.tens++;
         if (this.tens <= 9) {
@@ -61,6 +64,7 @@
         this.el_secs.innerHTML = this._format(this.secs);
         this.el_mins.innerHTML = this._format(this.mins);
     },
+    //Time format
     _format: function(n) {
         return n < 10 ? `0${n}` : n;
     }

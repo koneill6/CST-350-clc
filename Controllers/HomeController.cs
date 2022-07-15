@@ -6,6 +6,7 @@ namespace Milestone_cst_350.Controllers
 {
     public class HomeController : Controller
     {
+        // Logger variable and method for home controller
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -20,16 +21,19 @@ namespace Milestone_cst_350.Controllers
             return View();
         }
 
+        // A method that returns the test view. The test view was created for test purposes only 
         public IActionResult Test()
         {
             return View("test");
         }
 
+        // A method that returns the privacy view
         public IActionResult Privacy()
         {
             return View();
         }
 
+        // A method that returns the error view
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
