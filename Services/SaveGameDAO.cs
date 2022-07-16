@@ -5,6 +5,10 @@ namespace Milestone_cst_350.Services
 {
     public class SaveGameDAO : DataService
     {
+        /// <summary>
+        /// Stores all the games in the DAO
+        /// </summary>
+        /// <returns>will return all the games, else false if there is an error</returns>
         public List<SaveGameModel> AllGames()
         {
             List<SaveGameModel> foundGames = new List<SaveGameModel>();
@@ -36,6 +40,11 @@ namespace Milestone_cst_350.Services
             return foundGames;
         }
 
+        /// <summary>
+        /// Saves a game and stores it into a database 
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns>displays the number of rows during the sql injection</returns>
         public int SaveGame(SaveGameModel game)
         {
             int rows = 0;
@@ -66,6 +75,11 @@ namespace Milestone_cst_350.Services
             return rows;
         }
 
+        /// <summary>
+        /// Retrives all the games using the user's ID
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>the list of games</returns>
         public List<SaveGameModel> GetAllGamesByUserId(int userId)
         {
             // All games
@@ -99,6 +113,11 @@ namespace Milestone_cst_350.Services
             return foundGames;
         }
 
+        /// <summary>
+        /// Retrieve a game by it's ID 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> the found game </returns>
         public SaveGameModel GetGameById(int id)
         {
             SaveGameModel foundGame = null;
@@ -127,6 +146,11 @@ namespace Milestone_cst_350.Services
             return foundGame;
         }
 
+        /// <summary>
+        /// Deletes a game by it's ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>returns the row that the game was deleted from</returns>
         public int DeleteGameById(int id)
         {
             int rowsImpacted = 0;

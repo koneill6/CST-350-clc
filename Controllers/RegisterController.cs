@@ -6,6 +6,7 @@ namespace Milestone_cst_350.Controllers
 {
     public class RegisterController : Controller
     {
+        // Account Service
         private AccountService _accountService = new AccountService();
 
         public IActionResult Index()
@@ -13,9 +14,9 @@ namespace Milestone_cst_350.Controllers
             return View();
         }
 
+        // A method call to register a user
         public IActionResult RegisterUser(UserModel user)
         {
-            // TODO: Adjust routing in later milestones?
             return _accountService.RegisterUser(user) ?
                 View("RegisterSuccess")
                 :

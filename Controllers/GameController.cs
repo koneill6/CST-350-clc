@@ -8,11 +8,13 @@ namespace Milestone_cst_350.Controllers
     [UserAuthorization]
     public class GameController : Controller
     {
+        // Game service and controller class properties
         private GameService _gameService = new GameService();
 
         private int _size = 10;
         private float _diff = .15f;
 
+        // Intial route 
         public IActionResult Index()
         {
             // Session.
@@ -40,6 +42,7 @@ namespace Milestone_cst_350.Controllers
             return View();
         }
 
+        // Method call to retrieve the board using a session ID
         public IActionResult GetBoard(Guid sessionId)
         {
             ViewBag.HasWon = _gameService.HasWon(sessionId);
@@ -48,18 +51,21 @@ namespace Milestone_cst_350.Controllers
             return PartialView("_Board", _gameService.GetGameBySessionId(sessionId));
         }
 
+        // Method call to reveal the all the cells on a board
         public IActionResult RevealBoard(Guid sessionId, int row, int col)
         {
             _ = _gameService.RevelCell(sessionId, row, col);
             return GetBoard(sessionId);
         }
 
+        // Method call to flag a board
         public IActionResult FlagBoard(Guid sessionId, int row, int col)
         {
             _ = _gameService.FlagCell(sessionId, row, col);
             return GetBoard(sessionId);
         }
 
+        // Session call to reset the user's board
         public HttpStatusCode ResetBoard(Guid sessionId)
         {
             HttpContext.Session.Remove("guid");
@@ -70,6 +76,7 @@ namespace Milestone_cst_350.Controllers
                 HttpStatusCode.InternalServerError;
         }
 
+        // Method call to get the view containing all the user's games
         public IActionResult ViewGames()
         {
             return View();

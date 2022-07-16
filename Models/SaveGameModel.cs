@@ -2,16 +2,18 @@
 {
     public class SaveGameModel
     {
-
+        // Save Game Model properties 
         public int Id { get; set; }
         public int user_id { get; set; }
         public DateTime save_date { get; set; }
         public string save_state { get; set; }
 
+        // Default Constructor
         public SaveGameModel()
         {
         }
 
+        // Save Game Model Constructor
         public SaveGameModel(int id, int user_id, DateTime save_date, string save_state)
         {
             Id = id;

@@ -4,11 +4,14 @@ namespace Milestone_cst_350.Services
 {
     public sealed class GameSessionService
     {
+        // Game session service
         private static readonly Lazy<GameSessionService> _instance = new Lazy<GameSessionService>(() => new GameSessionService());
         public static GameSessionService Instance => _instance.Value;
 
+        // The session for each board game
         private static Dictionary<Guid, BoardModel> _sessions;
-
+        
+        // Intializes a new session
         private GameSessionService()
         {
             _sessions = new Dictionary<Guid, BoardModel>();

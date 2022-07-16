@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Milestone_cst_350.Models;
 using Milestone_cst_350.Services;
 
@@ -6,8 +6,10 @@ namespace Milestone_cst_350.Controllers
 {
     public class LoginController : Controller
     {
+        // Account service 
         private AccountService _accountService = new AccountService();
 
+        // Default view
         private readonly ILogger<LoginController> logger;
 
         public LoginController(ILogger<LoginController> logger)
@@ -15,7 +17,7 @@ namespace Milestone_cst_350.Controllers
             this.logger = logger;
             this.logger.LogDebug("NLog injected into login controller");
         }
-
+        
         public IActionResult Index()
         {
             // Log the user is trying to login
@@ -23,6 +25,7 @@ namespace Milestone_cst_350.Controllers
             return View();
         }
 
+        // Displays the users login, and handles the authenticy of an account
         public IActionResult ShowLogin(UserModel user)
         {
 

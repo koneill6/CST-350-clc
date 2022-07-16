@@ -1,9 +1,11 @@
 ﻿@{
+    <!-- Razor Template properties & variables -->
     Guid sessionId = ViewBag.sessionId;
     int userId = ViewBag.userId;
     string username = ViewBag.username;
 }
 
+<!-- Session ID, User ID, and Username -->
 <input type="hidden" value="@sessionId" id="session-id"/>
 <input type="hidden" value="@userId" id="user-id"/>
 <input type="hidden" value="@username" id="user-name"/>

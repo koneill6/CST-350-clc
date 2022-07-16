@@ -4,8 +4,10 @@ namespace Milestone_cst_350.Services
 {
     public class AccountService
     {
+        // Account DAO
         private AccountDAO _accountDAO;
 
+        // Intializes a new Account DAO
         public AccountService()
         {
             _accountDAO = new AccountDAO();
