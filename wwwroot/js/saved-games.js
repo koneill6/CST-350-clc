@@ -60,7 +60,7 @@ function onSuccess(data, status, xhr) {
                 type: 'DELETE',
                 contentType: 'application/x-www-form-urlencoded',
                 success: (data, status, xhr) => {
-                    window.location = window.location.reload();
+                    window.location.reload();
                 },
                 error: onError
             });
